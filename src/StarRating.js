@@ -6,7 +6,9 @@ const StarRating = () => {
   const [readOnlyRating, setReadOnlyRating] = useState(0);
   const [disabledRating, setDisabledRating] = useState(0);
   const [noRatingGiven, setNoRatingGiven] = useState(0);
+  const [ratings, setRatings] = useState([]);
   const [totalRatings, setTotalRatings] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
 
   useEffect(() => {
     const fetchTotalRatings = async () => {
@@ -21,10 +23,21 @@ const StarRating = () => {
     fetchTotalRatings();
   }, []);
 
+  useEffect(() => {
+    const calculateAverageRating = () => {
+      const sum = ratings.reduce((acc, rating) => acc + rating, 0);
+      const average = sum / ratings.length || 0;
+      setAverageRating(average.toFixed(1));
+    };
+
+    calculateAverageRating();
+  }, [ratings]);
+
   const handleRatingChange = async (newRating, setRating) => {
     setRating(newRating);
     try {
       await axios.post('/api/ratings', { rating: newRating });
+      setRatings((prevRatings) => [...prevRatings, newRating]);
       setTotalRatings((prevTotalRatings) => prevTotalRatings + 1);
     } catch (error) {
       console.error('Error occurred while saving the rating:', error);
@@ -100,6 +113,8 @@ const StarRating = () => {
         ))}
       </div>
       <h4>Your rating: {noRatingGiven}</h4>
+
+      <h3>Average Rating: {averageRating}</h3>
     </div>
   );
 };
