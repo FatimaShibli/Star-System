@@ -4,7 +4,7 @@ import StarRating from './StarRating';
 function App() {
   return (
     <div className="App">
-      <h1>Dynamic Star Rating System</h1>
+      <h2>Basic Rating</h2>
       <StarRating />
     </div>
   );
