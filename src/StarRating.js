@@ -30,23 +30,26 @@ const StarRating = () => {
       }
     };
   
-    return (
+  return (
+    <div>
+      <h3>Rate this widget:</h3>
       <div>
-        <div>Total Ratings: {totalRatings}</div>
         {[1, 2, 3, 4, 5].map((value) => (
           <span
             key={value}
-            style={{
-              color: rating >= value ? 'gold' : 'gray',
-              cursor: 'pointer',
-            }}
             onClick={() => handleRatingChange(value)}
+            style={{
+              cursor: 'pointer',
+              color: value <= rating ? 'orange' : 'gray',
+            }}
           >
             ★
           </span>
         ))}
       </div>
-    );
+      <h3>Your rating: {rating}</h3>
+    </div>
+  );
   };
   
 
